@@ -34,7 +34,7 @@ class NotesListViewController: UIViewController {
         fetchRequest.predicate = NSPredicate(format: "notebook == %@", notebook)
         
         listDataSource = ListDataSource(tableView: tableView, managedObjectContext: dataController.viewContext, fetchRequest: fetchRequest, configure: { (noteCell, note) in
-            noteCell.textPreviewLabel.text = note.text
+            noteCell.textPreviewLabel.attributedText = note.attributedText
             
             if let creationDate = note.creationDate {
                 noteCell.dateLabel.text = self.dateFormatter.string(from: creationDate)
@@ -102,7 +102,7 @@ class NotesListViewController: UIViewController {
         if let vc = segue.destination as? NoteDetailsViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
                 vc.note = listDataSource.fRC.object(at: indexPath)
-
+                vc.dataController = dataController
                 vc.onDelete = { [weak self] in
                     if let indexPath = self?.tableView.indexPathForSelectedRow {
                         self?.listDataSource.delete(at: indexPath)

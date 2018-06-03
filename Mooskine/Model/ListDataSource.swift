@@ -56,6 +56,7 @@ class ListDataSource<ObjectType: NSManagedObject, CellType: UITableViewCell>: NS
     
     func addNote(notebook:Notebook){
         let note = Note(context: managedObjectContext)
+        note.attributedText = NSAttributedString(string: "New Note")
         note.notebook = notebook
         try? managedObjectContext.save()
     }
